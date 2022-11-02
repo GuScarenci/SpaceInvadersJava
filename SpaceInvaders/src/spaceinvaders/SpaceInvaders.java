@@ -1,20 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package spaceinvaders;
 
-/**
- *
- * @author gustavoscarenci
- */
+import java.util.*; 
+
 public class SpaceInvaders {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        LimpaConsole.Clear();
+        
+        Map map = new Map(10,10);
+
+        map.printGame();
+        
+        Scanner sc= new Scanner(System.in);
+
+        String dir = sc.nextLine();
+
+        while(!dir.equals("x")){ 
+
+            LimpaConsole.Clear();
+            
+            map.UpdateMap();
+
+            map.printGame();
+            
+            dir = sc.nextLine();
+        }
+
+        sc.close();
+        
     }
     
 }
