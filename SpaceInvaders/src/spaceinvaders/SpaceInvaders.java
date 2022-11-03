@@ -8,7 +8,7 @@ public class SpaceInvaders {
 
         LimpaConsole.Clear();
         
-        Map map = new Map(10,10);
+        Map map = new Map(30,20);
 
         map.printGame();
         
@@ -20,7 +20,7 @@ public class SpaceInvaders {
 
             LimpaConsole.Clear();
             
-            map.UpdateMap();
+            map.UpdateMap(dir);
 
             map.printGame();
             

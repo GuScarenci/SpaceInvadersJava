@@ -3,6 +3,7 @@ package spaceinvaders;
 public class MapCell{
     boolean hasAnInvader;
     boolean hasAPlayer;
+    boolean hasABarrier;
     
     public MapCell(){
         this.hasAnInvader = false;
@@ -10,7 +11,9 @@ public class MapCell{
     }
     
     public int GetCellInfo(){
-        
+        if(this.hasABarrier){
+            return 4;
+        }
         if(this.hasAPlayer && this.hasAnInvader){
             return 3;
         }else if(this.hasAPlayer || this.hasAnInvader){
@@ -19,11 +22,14 @@ public class MapCell{
             }
             if(this.hasAnInvader){
                 return 2;
-            }
-            
+            }    
         }
         return 0;
         
+    }
+
+    public void SetBarrier(boolean x){
+        this.hasABarrier = x;
     }
     
     public void SetInvader(boolean x){
