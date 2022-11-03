@@ -3,21 +3,21 @@ package spaceinvaders;
 import java.nio.file.FileAlreadyExistsException;
 
 public class Game {
+
     MapCell[][] mapCell;
-    Invader[][] invaders;
+    int sizeX,sizeY;
 
 
     Cannon cannon;
     boolean cannonShotInScreen;
     int shotPosX,shotPosY;
 
-    int sizeX,sizeY;
+    Barrier[][] barriers;
 
+    Invader[][] invaders;
     int invadersX,invadersY;
-
     int invadersDir;
     int invadersWalk;
-
     int invadersOffsetX, invadersOffsetY;
 
     public Game(int sizeX, int sizeY){
@@ -32,11 +32,19 @@ public class Game {
         }
 
         //put barrier
-        for(int i = 0;i<sizeX;i++){
-            if(i%4 == 1){
-                this.mapCell[i][17].SetBarrier(true);
-                this.mapCell[i][16].SetBarrier(true);
+        this.barriers = new Barrier[4][2];
+        int barrierCountX = 0;
+        int barrierCountY = 0;
+        for(int j = 16;j<18;j++){
+            barrierCountX = 0;
+            for(int i = 0;i<sizeX;i++){
+                if(i%4 == 1){
+                    this.mapCell[i][j].SetBarrier(true);
+                    barriers[barrierCountX][barrierCountY] = new Barrier(i, j);
+                    barrierCountX++;
+                }
             }
+            barrierCountY++;
         }
         
         //put player
@@ -71,21 +79,29 @@ public class Game {
             for(int x = 0;x<this.sizeX;x++){
                 
                 if(this.mapCell[x][y].GetCellInfo() == 0){
-                    System.out.print("   ");
+                    System.out.print("[ ]");
                 }else if(this.mapCell[x][y].GetCellInfo() == 1){
-                    System.out.print(" A ");
+                    System.out.print("[A]");
                 }else if(this.mapCell[x][y].GetCellInfo() == 2){
                     System.out.print(this.invaders[x-invadersOffsetX][y-invadersOffsetY].sprite);
                 }else if(this.mapCell[x][y].GetCellInfo() == 3){
                     System.out.print("[F]");
                 }else if(this.mapCell[x][y].GetCellInfo() == 4){
-                    System.out.print("^^^");
+                    if(this.barriers[x/4][y%2].life == 4){
+                        System.out.print("000");
+                    }else if(this.barriers[x/4][y%2].life == 3){
+                        System.out.print("OOO");
+                    }else if(this.barriers[x/4][y%2].life == 2){
+                        System.out.print("ooo");
+                    }else if(this.barriers[x/4][y%2].life == 1){
+                        System.out.print("ooo");
+                    }
                 }else if(this.mapCell[x][y].GetCellInfo() == 5){
-                    System.out.print(" | ");
+                    System.out.print("[|]");
                 }else if(this.mapCell[x][y].GetCellInfo() == 6){
-                    System.out.print(" # ");
+                    System.out.print("[#]");
                 }else if(this.mapCell[x][y].GetCellInfo() == 7){
-                    System.out.print(" # ");
+                    System.out.print("[#]");
                 }  
 
             }
@@ -99,7 +115,7 @@ public class Game {
         System.out.println("-");
     }
     
-    public int UpdateMap(String dir){
+    public int UpdateGame(String dir){
 
         //PLAYER
         this.mapCell[cannon.posX][cannon.posY].SetPlayer(false);
@@ -158,16 +174,25 @@ public class Game {
                 invadersOffsetX+= invadersDir;
             }
         }
+
+        //BARREIRAS
+        int barrierCountX = 0;
+        int barrierCountY = 0;
+        for(int j = 16;j<18;j++){
+            barrierCountX = 0;
+            for(int i = 0;i<sizeX;i++){
+                if(i%4 == 1){
+                    if(this.barriers[barrierCountX][barrierCountY].life == 0){
+                        this.mapCell[i][j].SetBarrier(false);   
+                    }
+                    barrierCountX++;
+                }
+            }
+            barrierCountY++;
+        }
+
         return 0;
     }
-
-    /*public void CheckAllInvaders(){
-        for(int x = 0;x<invadersX;x++){
-            for(int y = 0;y<invadersY;y++){
-
-            }
-        }
-    }*/
 
     public void Shot(){
         this.shotPosX = cannon.posX;
@@ -191,6 +216,14 @@ public class Game {
 
             cannonShotInScreen = false;
             cannon.score += 10;
+            return;
+        }
+
+        //GAMBIARRA BARREIRA
+        if(this.mapCell[shotPosX][shotPosY].GetCellInfo() == 6){
+            this.barriers[shotPosX/4][shotPosY%2].ReduceLife();
+            this.mapCell[shotPosX][shotPosY].SetShot(false);
+            cannonShotInScreen = false;
             return;
         }
 

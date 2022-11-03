@@ -24,7 +24,7 @@ public class SpaceInvaders {
 
             LimpaConsole.Clear();
             
-            finishGame = game.UpdateMap(dir);
+            finishGame = game.UpdateGame(dir);
 
             game.printMap();
 
