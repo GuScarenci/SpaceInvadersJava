@@ -10,5 +10,9 @@ public abstract class GameObject {
         this.posY = posY;
         this.life = life;
     }
+
+    public void ReduceLife(){
+        this.life--;
+    }
     
 }

@@ -5,6 +5,7 @@ public class MapCell{
     boolean hasAPlayer;
     boolean hasABarrier;
     boolean hasAShot;
+    String sprite;
     
     public MapCell(){
         this.hasAnInvader = false;
@@ -14,6 +15,15 @@ public class MapCell{
     }
     
     public int GetCellInfo(){
+        if(this.hasAShot){
+            if(this.hasABarrier){
+                return 6;
+            }
+            if(this.hasAnInvader){
+                return 7;
+            }
+            return 5;
+        }
         if(this.hasABarrier){
             return 4;
         }
@@ -41,6 +51,10 @@ public class MapCell{
     
     public void SetPlayer(boolean x){
         this.hasAPlayer = x;
+    }
+
+    public void SetShot(boolean x){
+        this.hasAShot = x;
     }
     
 }

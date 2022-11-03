@@ -18,11 +18,13 @@ public class SpaceInvaders {
 
         String dir = sc.nextLine();
 
-        while(!dir.equals("x")){ 
+        int finishGame = 0;
+
+        while(!dir.equals("x") && finishGame == 0){ 
 
             LimpaConsole.Clear();
             
-            game.UpdateMap(dir);
+            finishGame = game.UpdateMap(dir);
 
             game.printMap();
 
