@@ -1,13 +1,11 @@
 package spaceinvaders;
 
-public class Invader {
-    public int posX,posY;
+public class Invader extends GameObject{
     int type;
     String sprite;
 
     public Invader(int posX,int posY){
-        this.posX = posX;
-        this.posY = posY;
+        super(posX,posY,1);
 
         if(this.posY < 2){
             this.type = 2;

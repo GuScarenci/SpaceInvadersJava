@@ -8,9 +8,11 @@ public class SpaceInvaders {
 
         LimpaConsole.Clear();
         
-        Map map = new Map(30,20);
+        Game game = new Game(16,20);
 
-        map.printGame();
+        game.printMap();
+        game.printPlayerStatus();
+        
         
         Scanner sc= new Scanner(System.in);
 
@@ -20,9 +22,11 @@ public class SpaceInvaders {
 
             LimpaConsole.Clear();
             
-            map.UpdateMap(dir);
+            game.UpdateMap(dir);
 
-            map.printGame();
+            game.printMap();
+
+            game.printPlayerStatus();
             
             dir = sc.nextLine();
         }

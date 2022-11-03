@@ -1,14 +1,11 @@
 package spaceinvaders;
 
-public class Cannon {
-    int posX,posY;
+public class Cannon extends GameObject{
 
-    int life;
+    int score;
 
     public Cannon(int posX,int posY){
-        this.posX = posX;
-        this.posY = posY;
-        this.life = 3;
+        super(posX,posY,3);
     }
     
     public void Move(int i){

@@ -4,10 +4,13 @@ public class MapCell{
     boolean hasAnInvader;
     boolean hasAPlayer;
     boolean hasABarrier;
+    boolean hasAShot;
     
     public MapCell(){
         this.hasAnInvader = false;
         this.hasAPlayer = false;
+        this.hasABarrier = false;
+        this.hasAShot = false;
     }
     
     public int GetCellInfo(){

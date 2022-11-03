@@ -1,6 +1,6 @@
 package spaceinvaders;
 
-public class Map {
+public class Game {
     MapCell[][] mapCell;
     Invader[][] invaders;
 
@@ -16,7 +16,7 @@ public class Map {
 
     int invadersOffsetX, invadersOffsetY;
 
-    public Map(int sizeX, int sizeY){
+    public Game(int sizeX, int sizeY){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.mapCell = new MapCell[sizeX][sizeY];
@@ -29,9 +29,9 @@ public class Map {
 
         //put barrier
         for(int i = 0;i<sizeX;i++){
-            if(i%8 == 1){
-                this.mapCell[i+1][17].SetBarrier(true);
-                this.mapCell[i+1][16].SetBarrier(true);
+            if(i%4 == 1){
+                this.mapCell[i][17].SetBarrier(true);
+                this.mapCell[i][16].SetBarrier(true);
             }
         }
         
@@ -58,7 +58,7 @@ public class Map {
         this.invadersWalk = 1;
     }
     
-    public void printGame(){
+    public void printMap(){
 
         for(int y = 0;y<this.sizeY;y++){
             for(int x = 0;x<this.sizeX;x++){
@@ -98,6 +98,8 @@ public class Map {
         }else if(dir.equals("d")){
             if(cannon.posX < sizeX - 1)
             this.cannon.Move(1);
+        }else if(dir.equals(" ")){
+            System.out.println("TIRO");
         }
         this.mapCell[cannon.posX][cannon.posY].SetPlayer(true);
 
@@ -134,5 +136,14 @@ public class Map {
                 invadersOffsetX+= invadersDir;
             }
         }
+    }
+    
+    public void printPlayerStatus(){
+        System.out.println("SCORE:" + cannon.score);
+        System.out.print("LIFES: ");
+        for(int i =0;i<cannon.life;i++){
+            System.out.print("[] ");
+        }
+        System.out.println();       
     }
 }
