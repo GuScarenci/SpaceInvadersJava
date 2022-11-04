@@ -1,11 +1,11 @@
 package spaceinvaders;
 
 public class MapCell{
-    boolean hasAnInvader;
-    boolean hasAPlayer;
-    boolean hasABarrier;
-    boolean hasAShot;
-    boolean hasAnInvaderShot;
+    private boolean hasAnInvader;
+    private boolean hasAPlayer;
+    private boolean hasABarrier;
+    private boolean hasAShot;
+    private boolean hasAnInvaderShot;
     
     //Constructor
     public MapCell(){

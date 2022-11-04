@@ -2,8 +2,8 @@
 package spaceinvaders;
 
 public abstract class GameObject {
-    int posX,posY;
-    int life;
+    private int posX,posY;
+    private int life;
     
     public GameObject(int posX,int posY,int life){
         this.posX = posX;
@@ -12,7 +12,26 @@ public abstract class GameObject {
     }
 
     public void ReduceLife(){
-        this.life--;
+        life--;
     }
     
+    public int GetPosX(){
+        return posX;
+    }
+
+    public int GetPosY(){
+        return posY;
+    }
+
+    public int GetLife(){
+        return life;
+    }
+
+    public void SetPosX(int posX){
+        this.posX = posX;
+    }
+
+    public void SetPosY(int posY){
+        this.posY = posY;
+    }
 }
