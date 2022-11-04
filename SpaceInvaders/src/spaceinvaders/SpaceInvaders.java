@@ -8,7 +8,7 @@ public class SpaceInvaders {
 
         LimpaConsole.Clear();
         
-        Game game = new Game(16,20);
+        Game game = new Game(16,26);
 
         game.printMap();
         game.printPlayerStatus();
