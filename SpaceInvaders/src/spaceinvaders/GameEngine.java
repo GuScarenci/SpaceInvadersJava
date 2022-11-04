@@ -1,6 +1,8 @@
 package spaceinvaders;
 
-import java.util.Random;;
+import java.util.Random;
+
+import javax.swing.text.StyledEditorKit;;
 
 public class GameEngine{
 
@@ -8,7 +10,7 @@ public class GameEngine{
     MapCell[][] mapCell;
     int sizeX,sizeY;
 
-    //Cannon(Player)Variables
+    //Cannon(Player)Variabless
     Cannon cannon;
     boolean cannonShotInScreen;
     int shotPosX,shotPosY;
@@ -24,6 +26,7 @@ public class GameEngine{
     int invadersOffsetX, invadersOffsetY;
     boolean invadersShotInScreen;
     int invShotPosX,invShotPosY;
+    int randShot;
     
     //Constructor 
     public GameEngine(int sizeX, int sizeY){
@@ -67,7 +70,7 @@ public class GameEngine{
         this.invadersDir = 1;
         this.invadersOffsetX = 0; 
         this.invadersOffsetY = 0;
-
+        this.randShot = 1;
 
         for(int y = 0;y<invadersY;y++){
             for(int x = 0;x<invadersX;x++){
@@ -143,11 +146,22 @@ public class GameEngine{
         }
 
         //INIMIGOS ATIRAM
-        Random rn = new Random();
+
+
         if(this.invadersShotInScreen == false){
-            int invToShotX = rn.nextInt(invadersX - 0) + 0;
-            int invToShotY = rn.nextInt(invadersY - 0) + 0;
-            Shot(invToShotX + invadersOffsetX,invToShotY+invadersOffsetY,false);
+            this.randShot *= -1;
+            int invToShotX;
+            int invToShotY;
+            Random rn = new Random();
+
+            invToShotY = rn.nextInt(invadersY - 0) + 0;
+            if(this.randShot == -1 && this.invaders[this.cannon.posX - this.invadersOffsetX][invToShotY] != null){
+                invToShotX = this.cannon.posX;
+                Shot(invToShotX,invToShotY+invadersOffsetY,false);
+            }else{
+                invToShotX = rn.nextInt(invadersX - 0) + 0;
+                Shot(invToShotX + invadersOffsetX,invToShotY+invadersOffsetY,false);
+            }
         }else{
             InvaderShotMove();
         }
@@ -187,7 +201,7 @@ public class GameEngine{
 
     public void InvaderShotMove(){
 
-        if(this.mapCell[invShotPosX][invShotPosY].GetCellInfo() == 9){
+        if(this.mapCell[invShotPosX][invShotPosY].GetCellInfo() == 8){
             this.cannon.ReduceLife();
             this.mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
             invadersShotInScreen = false;
@@ -200,7 +214,7 @@ public class GameEngine{
             return;
         }
 
-        if(this.mapCell[invShotPosX][invShotPosY].GetCellInfo() == 6){
+        if(this.mapCell[invShotPosX][invShotPosY].GetCellInfo() == 5){
             this.barriers[invShotPosX/4][invShotPosY%2].ReduceLife();
             this.mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
             invadersShotInScreen = false;
@@ -215,7 +229,7 @@ public class GameEngine{
 
     public void ShotMove(){
 
-        if(this.mapCell[shotPosX][shotPosY].GetCellInfo() == 7){
+        if(this.mapCell[shotPosX][shotPosY].GetCellInfo() == 6){
 
             this.mapCell[shotPosX][shotPosY].SetShot(false);
             this.invaders[shotPosX-invadersOffsetX][shotPosY-invadersOffsetY].ReduceLife();
@@ -231,7 +245,7 @@ public class GameEngine{
             return;
         }
 
-        if(this.mapCell[shotPosX][shotPosY].GetCellInfo() == 6){
+        if(this.mapCell[shotPosX][shotPosY].GetCellInfo() == 5){
             this.barriers[shotPosX/4][shotPosY%2].ReduceLife();
             this.mapCell[shotPosX][shotPosY].SetShot(false);
             cannonShotInScreen = false;
@@ -255,8 +269,6 @@ public class GameEngine{
                 }else if(this.mapCell[x][y].GetCellInfo() == 2){
                     System.out.print(this.invaders[x-invadersOffsetX][y-invadersOffsetY].sprite);
                 }else if(this.mapCell[x][y].GetCellInfo() == 3){
-                    System.out.print(" F ");
-                }else if(this.mapCell[x][y].GetCellInfo() == 4){
                     if(this.barriers[x/4][y%2].life == 4){
                         System.out.print("000");
                     }else if(this.barriers[x/4][y%2].life == 3){
@@ -266,15 +278,15 @@ public class GameEngine{
                     }else if(this.barriers[x/4][y%2].life == 1){
                         System.out.print("ooo");
                     }
-                }else if(this.mapCell[x][y].GetCellInfo() == 5){
+                }else if(this.mapCell[x][y].GetCellInfo() == 4){
                     System.out.print(" ^ ");
+                }else if(this.mapCell[x][y].GetCellInfo() == 5){
+                    System.out.print(" # ");
                 }else if(this.mapCell[x][y].GetCellInfo() == 6){
                     System.out.print(" # ");
                 }else if(this.mapCell[x][y].GetCellInfo() == 7){
-                    System.out.print(" # ");
-                }else if(this.mapCell[x][y].GetCellInfo() == 8){
                     System.out.print(" Y ");
-                }else if(this.mapCell[x][y].GetCellInfo() == 9){
+                }else if(this.mapCell[x][y].GetCellInfo() == 8){
                     System.out.print(" # ");
                 } 
             }

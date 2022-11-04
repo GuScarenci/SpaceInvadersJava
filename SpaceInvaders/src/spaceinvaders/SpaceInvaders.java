@@ -6,7 +6,11 @@ public class SpaceInvaders {
 
     public static void main(String[] args) {
 
-        LimpaConsole.Clear();
+        Printer printer = new Printer();
+        
+        printer.Clear();
+
+        printer.PrintStartMenu();
         
         GameEngine game = new GameEngine(16,26);
         
@@ -20,7 +24,7 @@ public class SpaceInvaders {
 
         while(!dir.equals("x") && finishGame == 0){ 
 
-            LimpaConsole.Clear();
+            printer.Clear();
             
             finishGame = game.UpdateGame(dir);
 
@@ -30,7 +34,12 @@ public class SpaceInvaders {
             
             dir = sc.nextLine();
         }
-        
+
+        printer.Clear();
+        printer.PrintEndMenu();
+
+        dir = sc.nextLine();
+
         sc.close();  
     }
     
