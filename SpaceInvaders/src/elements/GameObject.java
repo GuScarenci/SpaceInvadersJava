@@ -1,5 +1,4 @@
-
-package spaceinvaders;
+package elements;
 
 public abstract class GameObject {
     private int posX,posY;

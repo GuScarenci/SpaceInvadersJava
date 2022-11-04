@@ -1,4 +1,6 @@
 package spaceinvaders;
+import engine.*;
+import graphics.Printer;
 
 import java.util.*; 
 

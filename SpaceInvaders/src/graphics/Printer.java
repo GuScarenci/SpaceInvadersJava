@@ -1,4 +1,4 @@
-package spaceinvaders;
+package graphics;
 
 public class Printer {
     

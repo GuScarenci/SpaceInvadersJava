@@ -1,4 +1,4 @@
-package spaceinvaders;
+package elements;
 
 public class Cannon extends GameObject{
 

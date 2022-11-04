@@ -1,4 +1,6 @@
-package spaceinvaders;
+package elements;
+
+import engine.*;
 
 public class MapCell{
     private boolean hasAnInvader;

@@ -1,4 +1,5 @@
-package spaceinvaders;
+package engine;
+import elements.*;
 
 import java.util.Random;
 
@@ -250,7 +251,7 @@ public class GameEngine{
                         System.out.print(" A ");
                         break;
                     case 2:
-                        System.out.print(invaders[x-invadersOffsetX][y-invadersOffsetY].sprite);
+                        System.out.print(invaders[x-invadersOffsetX][y-invadersOffsetY].GetSprite());
                         break;
                     case 3:
                         switch (barriers[x/4][y%2].GetLife()){

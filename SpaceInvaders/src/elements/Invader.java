@@ -1,8 +1,8 @@
-package spaceinvaders;
+package elements;
 
 public class Invader extends GameObject{
     int type;
-    String sprite;
+    private String sprite;
 
     public Invader(int posX,int posY){
         super(posX,posY,1);
