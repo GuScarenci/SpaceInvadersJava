@@ -1,7 +1,5 @@
 package elements;
 
-import engine.*;
-
 public class MapCell{
     private boolean hasAnInvader;
     private boolean hasAPlayer;
@@ -14,34 +12,34 @@ public class MapCell{
     }
     
     public int GetCellInfo(){
-        if(this.hasAnInvaderShot){
-            if(this.hasABarrier){
+        if(hasAnInvaderShot){
+            if(hasABarrier){
                 return 5;
             }
-            if(this.hasAPlayer){
+            if(hasAPlayer){
                 return 8;
             }
             return 7;
         }
-        if(this.hasAShot){
-            if(this.hasAnInvader){
+        if(hasAShot){
+            if(hasAnInvader){
                 return 6;
             }
-            if(this.hasABarrier){
+            if(hasABarrier){
                 return 5;
             }
-            if(this.hasAShot){
+            if(hasAShot){
                 return 4;
             }
         }
-        if(this.hasABarrier){
+        if(hasABarrier){
             return 3;
         }
-        if(this.hasAPlayer || this.hasAnInvader){
-            if(this.hasAnInvader){
+        if(hasAPlayer || hasAnInvader){
+            if(hasAnInvader){
                 return 2;
             }    
-            if(this.hasAPlayer){
+            if(hasAPlayer){
                 return 1;
             }
         }
@@ -49,22 +47,22 @@ public class MapCell{
     }
 
     public void SetBarrier(boolean x){
-        this.hasABarrier = x;
+        hasABarrier = x;
     }
     
     public void SetInvader(boolean x){
-        this.hasAnInvader = x;
+        hasAnInvader = x;
     }
     
     public void SetPlayer(boolean x){
-        this.hasAPlayer = x;
+        hasAPlayer = x;
     }
 
-    public void SetShot(boolean x){
-        this.hasAShot = x;
+    public void SetShot(boolean x,boolean fromPlayer){
+        if(fromPlayer){
+            hasAShot = x;
+        }else{
+            hasAnInvaderShot = x;
+        }
     }
-    public void SetInvaderShot(boolean x){
-        this.hasAnInvaderShot = x;
-    }
-    
 }

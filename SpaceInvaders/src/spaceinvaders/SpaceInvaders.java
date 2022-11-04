@@ -37,7 +37,7 @@ public class SpaceInvaders {
         //Enquanto o jogador não morrer ou o usuário não der o comando "x", o jogo continua.
         while(!dir.equals("x") && finishGame == 0){ 
 
-            printer.Clear();
+            //printer.Clear();
 
             game.printMap();
 

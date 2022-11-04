@@ -26,6 +26,10 @@ public abstract class GameObject {
         return life;
     }
 
+    public void SetLife(int i){
+        this.life = i;
+    }
+
     public void SetPosX(int posX){
         this.posX = posX;
     }

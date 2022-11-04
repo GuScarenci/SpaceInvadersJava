@@ -11,8 +11,7 @@ public class GameEngine{
 
     //Cannon(Player)Variabless
     Cannon cannon;
-    boolean cannonShotInScreen;
-    int shotPosX,shotPosY;
+    Shot cannonShot;
 
     //Cannon(Player)Variables 
     Barrier[][] barriers;
@@ -23,9 +22,7 @@ public class GameEngine{
     int invadersDir;
     int invadersWalk;
     int invadersOffsetX, invadersOffsetY;
-    boolean invadersShotInScreen;
-    int invShotPosX,invShotPosY;
-    int randShot;
+    Shot invaderShot;
     
     //Constructor 
     public GameEngine(int sizeX, int sizeY){
@@ -56,11 +53,10 @@ public class GameEngine{
         }
         
         //put player
-        shotPosY = 0;
-        shotPosX = 0;
+        cannonShot = new Shot(0,0,true);
+
         cannon = new Cannon((sizeX-1)/2,sizeY-1);
         mapCell[(sizeX-1)/2][sizeY-1].SetPlayer(true);
-        cannonShotInScreen = false;
 
         //put enemies
         invadersX = 11;
@@ -69,7 +65,7 @@ public class GameEngine{
         invadersDir = 1;
         invadersOffsetX = 0; 
         invadersOffsetY = 0;
-        randShot = 1;
+        invaderShot = new Shot(0,0,false);
 
         for(int y = 0;y<invadersY;y++){
             for(int x = 0;x<invadersX;x++){
@@ -95,13 +91,16 @@ public class GameEngine{
             if(cannon.GetPosX() < sizeX - 1)
             cannon.Move(1);
         }else if(dir.equals(" ")){
-            if(cannonShotInScreen == false){
+            if(cannonShot.GetLife() == 0){
                 Shot(cannon.GetPosX(),cannon.GetPosY(),true);
             }
         }
-        if(cannonShotInScreen == true){
-            ShotMove();
+
+        if(cannonShot.GetLife() == 1){
+            ShotMove(cannonShot);
+        }else{
         }
+
         mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(true);
 
         //NAVES INIMIGAS
@@ -143,22 +142,25 @@ public class GameEngine{
         }
 
         //INIMIGOS ATIRAM
-        if(invadersShotInScreen == false){
-            randShot *= -1;
+
+        if(invaderShot.GetLife() == 0){
+
+            invaderShot.SwitchIsRand();
             int invToShotX;
             int invToShotY;
-            Random rn = new Random();
 
+            Random rn = new Random();
             invToShotY = rn.nextInt(invadersY - 0) + 0;
-            /**/if(randShot == -1 && cannon.GetPosX() - invadersOffsetX < invadersX){
+            if(!invaderShot.IsRand() && cannon.GetPosX() - invadersOffsetX < invadersX){
                 invToShotX = cannon.GetPosX();
                 Shot(invToShotX,invToShotY+invadersOffsetY,false);
             }else{
                 invToShotX = rn.nextInt(invadersX - 0) + 0;
                 Shot(invToShotX + invadersOffsetX,invToShotY+invadersOffsetY,false);
             }
+
         }else{
-            InvaderShotMove();
+            ShotMove(invaderShot);
         }
         
         //BARREIRAS
@@ -180,64 +182,58 @@ public class GameEngine{
     }
 
     public void Shot(int x,int y,boolean fromPlayer){
-        if(fromPlayer){
-            shotPosX = x;
-            shotPosY = y;
-            mapCell[x][y].SetShot(true);
-            cannonShotInScreen = true;
-        }else{
-            invShotPosX = x;
-            invShotPosY = y;
-            mapCell[x][y].SetInvaderShot(true);
-            invadersShotInScreen = true;
-        }
+            if(fromPlayer){
+                cannonShot.SpawnShot(x, y);
+            }else{
+                invaderShot.SpawnShot(x, y);
+            }
+            mapCell[x][y].SetShot(true,fromPlayer);
     }
 
-    public void InvaderShotMove(){
-        if(mapCell[invShotPosX][invShotPosY].GetCellInfo() == 8){
-            cannon.ReduceLife();
-            mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
-            invadersShotInScreen = false;
-            return;
-        }
-        if(invShotPosY == sizeY-1){
-            mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
-            invadersShotInScreen = false;
-            return;
-        }
-        if(mapCell[invShotPosX][invShotPosY].GetCellInfo() == 5){
-            barriers[invShotPosX/4][invShotPosY%2].ReduceLife();
-            mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
-            invadersShotInScreen = false;
-            return;
-        }
-        mapCell[invShotPosX][invShotPosY].SetInvaderShot(false);
-        invShotPosY++;
-        mapCell[invShotPosX][invShotPosY].SetInvaderShot(true);
-    }
+    public void ShotMove(Shot shot){
 
-    public void ShotMove(){
-        if(mapCell[shotPosX][shotPosY].GetCellInfo() == 6){
-            mapCell[shotPosX][shotPosY].SetShot(false);
-            invaders[shotPosX-invadersOffsetX][shotPosY-invadersOffsetY].ReduceLife();
-            cannonShotInScreen = false;
-            cannon.SetScore(cannon.GetScore()+10);
+        if(!shot.IsFromPlayer()){
+            if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==8){
+                cannon.ReduceLife();
+                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
+                shot.ReduceLife();
+                return;
+            }
+
+            if(shot.GetPosY() == sizeY-1){
+                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
+                shot.ReduceLife();
+                return;
+            }
+        }
+
+        if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==5){
+            barriers[shot.GetPosX()/4][shot.GetPosY()%2].ReduceLife();
+            mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.IsFromPlayer());
+            shot.ReduceLife();
             return;
         }
-        if(shotPosY == 1){
-            mapCell[shotPosX][shotPosY].SetShot(false);
-            cannonShotInScreen = false;
-            return;
+
+        if(shot.IsFromPlayer()){
+
+            if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo() == 6){
+                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,true);
+                invaders[shot.GetPosX()-invadersOffsetX][shot.GetPosY()-invadersOffsetY].ReduceLife();
+                shot.ReduceLife();
+                cannon.SetScore(cannon.GetScore()+10);
+                return;
+            }
+
+            if(shot.GetPosY() == 1){
+                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
+                shot.ReduceLife();
+                return;
+            }
         }
-        if(mapCell[shotPosX][shotPosY].GetCellInfo() == 5){
-            barriers[shotPosX/4][shotPosY%2].ReduceLife();
-            mapCell[shotPosX][shotPosY].SetShot(false);
-            cannonShotInScreen = false;
-            return;
-        }
-        mapCell[shotPosX][shotPosY].SetShot(false);
-        shotPosY--;
-        mapCell[shotPosX][shotPosY].SetShot(true);  
+
+        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.IsFromPlayer());
+        shot.Move();
+        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(true,shot.IsFromPlayer());
     }
     
     public void printMap(){
@@ -248,7 +244,7 @@ public class GameEngine{
                         System.out.print("   ");
                         break;
                     case 1:
-                        System.out.print(" A ");
+                        System.out.print(" ▲ ");
                         break;
                     case 2:
                         System.out.print(invaders[x-invadersOffsetX][y-invadersOffsetY].GetSprite());
@@ -256,27 +252,27 @@ public class GameEngine{
                     case 3:
                         switch (barriers[x/4][y%2].GetLife()){
                             case 4:
-                                System.out.print("000");
+                                System.out.print("███");
                                 break;
                             case 3:
-                                System.out.print("OOO");
+                                System.out.print("▙▙▜");
                                 break;
                             case 2:
-                                System.out.print("ooo");
+                                System.out.print("▚▝▚");
                                 break;
                             case 1:
-                                System.out.print("ooo");
+                                System.out.print("▗▝▖");
                                 break;
                         }
                         break;
                     case 4:
-                        System.out.print(" ^ ");
+                        System.out.print(" ▴ ");
                         break;
                     case 5: case 6: case 8:
-                        System.out.print(" # ");
+                        System.out.print("░░░");
                         break;
                     case 7:
-                        System.out.print(" Y ");
+                        System.out.print(" ▀ ");
                         break;
                 }
             }
@@ -293,7 +289,7 @@ public class GameEngine{
         System.out.print("LIFES: ");
         System.out.print(cannon.GetLife() + " ");
         for(int i = 0;i<cannon.GetLife();i++){
-            System.out.print("█ ");
+            System.out.print("❤ ");
         }
         System.out.println();       
     }
