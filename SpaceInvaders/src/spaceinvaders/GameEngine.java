@@ -2,8 +2,6 @@ package spaceinvaders;
 
 import java.util.Random;
 
-import javax.swing.text.StyledEditorKit;;
-
 public class GameEngine{
 
     //MapVariables
