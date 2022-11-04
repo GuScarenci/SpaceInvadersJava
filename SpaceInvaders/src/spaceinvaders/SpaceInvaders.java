@@ -8,15 +8,13 @@ public class SpaceInvaders {
 
         LimpaConsole.Clear();
         
-        Game game = new Game(16,26);
+        GameEngine game = new GameEngine(16,26);
+        
+        Scanner sc= new Scanner(System.in);
+        String dir = sc.nextLine();
 
         game.printMap();
         game.printPlayerStatus();
-        
-        
-        Scanner sc= new Scanner(System.in);
-
-        String dir = sc.nextLine();
 
         int finishGame = 0;
 
@@ -32,9 +30,8 @@ public class SpaceInvaders {
             
             dir = sc.nextLine();
         }
-
-        sc.close();
         
+        sc.close();  
     }
     
 }
