@@ -6,4 +6,4 @@
 
 ## Demonstração do jogo rodando
 
-  ![](https://youtu.be/TE9QQPKrJzo).
+  ![Clique aqui](https://youtu.be/TE9QQPKrJzo).
