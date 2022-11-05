@@ -37,6 +37,7 @@ public class GameEngine{
      * @author Gustavo Moura
      */
     public GameEngine(int sizeX, int sizeY){
+        //Define o tamanho do mapa e o constrói
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         mapCell = new MapCell[sizeX][sizeY];
@@ -47,7 +48,7 @@ public class GameEngine{
             }
         }
 
-        //put barrier
+        //Coloca barreiras nas suas posições iniciais
         barriers = new Barrier[4][2];
         int barrierCountX = 0;
         int barrierCountY = 0;
@@ -63,13 +64,12 @@ public class GameEngine{
             barrierCountY++;
         }
         
-        //put player
+        //Coloca o jogador na sua posição inicial
         cannonShot = new Shot(0,0,true);
-
         cannon = new Cannon((sizeX-1)/2,sizeY-1);
         mapCell[(sizeX-1)/2][sizeY-1].setPlayer(true);
 
-        //put enemies
+        //Coloca os inimigos na posição inicial deles
         invadersX = 11;
         invadersY = 5;
         invaders = new Invader[invadersX][invadersY];
@@ -86,6 +86,7 @@ public class GameEngine{
         }   
         invadersWalk = 0;
     }
+    
     
     /**Responsável por atualizar o jogo de um frame para o próximo frame, atualizando as posições e status dos objetos.
      * @param dir String que indica um comando do jogador:
@@ -348,6 +349,7 @@ public class GameEngine{
     }
     
     /**Método responsável por imprimir a pontuação e a vida do jogador.
+     * 
      * @author Gustavo Moura
      */
     public void printPlayerStatus(){
