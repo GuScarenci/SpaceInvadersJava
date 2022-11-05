@@ -8,7 +8,7 @@
 
   [Clique aqui para ver no Youtube](https://youtu.be/TE9QQPKrJzo)
 
-(https://user-images.githubusercontent.com/93041836/200143386-9e880200-1fd9-4f27-b021-49fe20e2cdaa.mp4)
+https://user-images.githubusercontent.com/93041836/200143386-9e880200-1fd9-4f27-b021-49fe20e2cdaa.mp4
 
 ## Diagrama de classes em UML
 
