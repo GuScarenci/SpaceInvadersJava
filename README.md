@@ -6,7 +6,7 @@
 
 ## Demonstração do jogo rodando
 
-  [Clique aqui](https://youtu.be/TE9QQPKrJzo)
+  [Clique aqui para ver no Youtube](https://youtu.be/TE9QQPKrJzo)
 
 https://user-images.githubusercontent.com/93041836/200143275-2317a176-39c3-4e14-9bca-d35cc84376c9.mp4
 
