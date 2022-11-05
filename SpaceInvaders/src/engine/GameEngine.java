@@ -12,23 +12,23 @@ import java.util.Random;
 public class GameEngine{
 
     //MapVariables
-    MapCell[][] mapCell;
-    int sizeX,sizeY;
+    private MapCell[][] mapCell;
+    private int sizeX,sizeY;
 
     //Cannon(Player)Variabless
-    Cannon cannon;
-    Shot cannonShot;
+    private Cannon cannon;
+    private Shot cannonShot;
 
     //Cannon(Player)Variables 
-    Barrier[][] barriers;
+    private Barrier[][] barriers;
 
     //InvaderVariables 
-    Invader[][] invaders;
-    int invadersX,invadersY;
-    int invadersDir;
-    int invadersWalk;
-    int invadersOffsetX, invadersOffsetY;
-    Shot invaderShot;
+    private Invader[][] invaders;
+    private int invadersX,invadersY;
+    private int invadersDir;
+    private int invadersWalk;
+    private int invadersOffsetX, invadersOffsetY;
+    private Shot invaderShot;
     
     /**Construtor da GameEngine
      * Cria o mapa, coloca as barreiras, o jogador e os inimigos em suas posições iniciais.
@@ -236,7 +236,7 @@ public class GameEngine{
      * @param fromPlayer Indica se o tiro é de um jogador (true) ou inimigo (false).
      * @author Gustavo Moura
      */
-    public void shot(int x,int y,boolean fromPlayer){
+    private void shot(int x,int y,boolean fromPlayer){
             if(fromPlayer){
                 cannonShot.spawnShot(x, y);
             }else{
@@ -250,7 +250,7 @@ public class GameEngine{
      * @param shot O tiro a ser movido
      * @author Gustavo Moura
      */
-    public void shotMove(Shot shot){
+    private void shotMove(Shot shot){
 
         if(!shot.isFromPlayer()){
             if(mapCell[shot.getPosX()][shot.getPosY()].getCellInfo()==8){
