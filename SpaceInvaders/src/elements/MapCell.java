@@ -20,7 +20,7 @@ public class MapCell{
     *@return Informação da célula do mapa
     *@author Gustavo Moura
     */
-    public int GetCellInfo(){
+    public int getCellInfo(){
         if(hasAnInvaderShot){
             if(hasABarrier){
                 return 5;
@@ -59,7 +59,7 @@ public class MapCell{
     *@param x Caso true, indica que há uma barreira nessa célula e caso falso, indica que não.
     *@author Gustavo Moura
     */
-    public void SetBarrier(boolean x){
+    public void setBarrier(boolean x){
         hasABarrier = x;
     }
     
@@ -67,7 +67,7 @@ public class MapCell{
     *@param x Caso true, indica que há um inimigo nessa célula e caso falso, indica que não.
     *@author Gustavo Moura
     */
-    public void SetInvader(boolean x){
+    public void setInvader(boolean x){
         hasAnInvader = x;
     }
     
@@ -75,7 +75,7 @@ public class MapCell{
     *@param x Caso true, indica que há o jogador nessa célula e caso falso, indica que não.
     *@author Gustavo Moura
     */
-    public void SetPlayer(boolean x){
+    public void setPlayer(boolean x){
         hasAPlayer = x;
     }
 
@@ -84,7 +84,7 @@ public class MapCell{
     *@param fromPlayer Caso true, se refere ao tiro do jogador, caso false,se refere ao tiro de um inimigo.
     *@author Gustavo Moura
     */
-    public void SetShot(boolean x,boolean fromPlayer){
+    public void setShot(boolean x,boolean fromPlayer){
         if(fromPlayer){
             hasAShot = x;
         }else{

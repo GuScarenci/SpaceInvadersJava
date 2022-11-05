@@ -23,7 +23,7 @@ public abstract class GameObject {
     /**Método responsável por reduzir a vida do objeto em uma unidade.
     * @author Gustavo Moura
     */
-    public void ReduceLife(){
+    public void reduceLife(){
         life--;
     }
     
@@ -31,7 +31,7 @@ public abstract class GameObject {
     * @return Posição em X do objeto
     * @author Gustavo Moura
     */
-    public int GetPosX(){
+    public int getPosX(){
         return posX;
     }
     
@@ -39,7 +39,7 @@ public abstract class GameObject {
     * @return Posição em Y do objeto
     * @author Gustavo Moura
     */
-    public int GetPosY(){
+    public int getPosY(){
         return posY;
     }
 
@@ -47,7 +47,7 @@ public abstract class GameObject {
     * @return Vida do objeto
     * @author Gustavo Moura
     */
-    public int GetLife(){
+    public int getLife(){
         return life;
     }
 
@@ -55,7 +55,7 @@ public abstract class GameObject {
     * @param i Valor para o qual a vida do objeto será definida.
     * @author Gustavo Moura
     */
-    public void SetLife(int i){
+    public void setLife(int i){
         this.life = i;
     }
 
@@ -63,7 +63,7 @@ public abstract class GameObject {
     * @param i Valor para o qual a posição em X será definida.
     * @author Gustavo Moura
     */
-    public void SetPosX(int posX){
+    public void setPosX(int posX){
         this.posX = posX;
     }
     
@@ -71,7 +71,7 @@ public abstract class GameObject {
     * @param i Valor para o qual a posição em Y será definida.
     * @author Gustavo Moura
     */
-    public void SetPosY(int posY){
+    public void setPosY(int posY){
         this.posY = posY;
     }
 }

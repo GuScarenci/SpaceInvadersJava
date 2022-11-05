@@ -26,9 +26,9 @@ public class Shot extends GameObject{
      * @author Gustavo Moura
      */
     public void spawnShot(int posX,int posY){
-        SetPosX(posX);
-        SetPosY(posY);
-        SetLife(1);
+        setPosX(posX);
+        setPosY(posY);
+        setLife(1);
     }
     
     /**Método Getter que retorna se o tiro é um tiro do jogador ou de um inimigo.
@@ -45,9 +45,9 @@ public class Shot extends GameObject{
      */
     public void move(){
         if(fromPlayer){
-            SetPosY(GetPosY()-1);
+            setPosY(getPosY()-1);
         }else{
-            SetPosY(GetPosY()+1);
+            setPosY(getPosY()+1);
         }
     }
 

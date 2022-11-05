@@ -20,15 +20,15 @@ public class Cannon extends GameObject{
     * @param i Paramêtro que indica para onde a nave se moverá em X. 
     * @author Gustavo Moura
     */
-    public void Move(int i){
-        SetPosX(GetPosX()+i);
+    public void move(int i){
+        setPosX(getPosX()+i);
     }
     
     /**Método Getter da pontuação do jogador.
     * @return Pontuação do jogador
     * @author Gustavo Moura
     */
-    public int GetScore(){
+    public int getScore(){
         return score;
     }
     
@@ -36,7 +36,7 @@ public class Cannon extends GameObject{
     * @param i Valor para o qual a pontuação será definida. 
     * @author Gustavo Moura
     */
-    public void SetScore(int i){
+    public void setScore(int i){
         score = i;
     }
 }

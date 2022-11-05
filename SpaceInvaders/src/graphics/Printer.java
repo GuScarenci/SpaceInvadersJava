@@ -10,8 +10,8 @@ public class Printer {
     /**Responsável por imprimir a tela inicial.
      * @author Gustavo Moura
      */
-    public void PrintStartMenu(){
-        PrintSpaceInvadersLogo();
+    public void printStartMenu(){
+        printSpaceInvadersLogo();
         System.out.println();
         System.out.println("Pressione \"Enter\" para jogar!");
         System.out.println();
@@ -34,8 +34,8 @@ public class Printer {
     /**Responsável por imprimir a tela final.
      * @author Gustavo Moura
      */
-    public void PrintEndMenu(){
-        PrintSpaceInvadersLogo();
+    public void printEndMenu(){
+        printSpaceInvadersLogo();
         System.out.println();
         System.out.println("Você perdeu! Tente novamente.");
         System.out.println();
@@ -48,7 +48,7 @@ public class Printer {
      * NÃO FUNCIONA SEMPRE, DEPENDENDO DA SUA MÁQUINA!
      * @author Gustavo Moura
      */
-    public void Clear(){
+    public void clear(){
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
     }
@@ -57,7 +57,7 @@ public class Printer {
      * início e fim para fins estéticos.
      * @author Gustavo Moura
      */
-    public void PrintSpaceInvadersLogo(){
+    public void printSpaceInvadersLogo(){
         System.out.println("*   ███* ███  ███  ███  ███ ");
         System.out.println("  * █    █ █  █ █ *█    █   ");
         System.out.println("    ███  ███  █*█  █  * ███* ");

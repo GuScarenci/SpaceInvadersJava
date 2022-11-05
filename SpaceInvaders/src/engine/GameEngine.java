@@ -3,9 +3,10 @@ import elements.*;
 
 import java.util.Random;
 
-/**Classe GameEngine, responsável por fazer quase tudo em termos de funcionamento do jogo, como criar os elementos,
- * gerar o mapa, chamar os métodos de atualização do estado do jogo, etc.
- * No momento, existem algumas funções de impressão que futuramente serão passadas para o package graphics.
+/**Classe GameEngine, responsável por fazer quase tudo em termos de funcionamento
+ * do jogo, como criar os elementos, gerar o mapa, chamar os métodos de atualização
+ * do estado do jogo, etc. No momento, existem algumas funções de impressão que 
+ * futuramente serão passadas para o package graphics.
  * @author Gustavo Moura
  */
 public class GameEngine{
@@ -54,7 +55,7 @@ public class GameEngine{
             barrierCountX = 0;
             for(int i = 0;i<sizeX;i++){
                 if(i%4 == 1){
-                    mapCell[i][j].SetBarrier(true);
+                    mapCell[i][j].setBarrier(true);
                     barriers[barrierCountX][barrierCountY] = new Barrier(i, j);
                     barrierCountX++;
                 }
@@ -66,7 +67,7 @@ public class GameEngine{
         cannonShot = new Shot(0,0,true);
 
         cannon = new Cannon((sizeX-1)/2,sizeY-1);
-        mapCell[(sizeX-1)/2][sizeY-1].SetPlayer(true);
+        mapCell[(sizeX-1)/2][sizeY-1].setPlayer(true);
 
         //put enemies
         invadersX = 11;
@@ -80,7 +81,7 @@ public class GameEngine{
         for(int y = 0;y<invadersY;y++){
             for(int x = 0;x<invadersX;x++){
                 invaders[x][y] = new Invader(x,y);
-                mapCell[x][y].SetInvader(true);
+                mapCell[x][y].setInvader(true);
             }
         }   
         invadersWalk = 0;
@@ -95,71 +96,85 @@ public class GameEngine{
      * @return Caso 0, o jogo segue normalmente, caso 1, o jogo termina.
      * @author Gustavo Moura
      */
-    public int UpdateGame(String dir){
-        if(UpdatePlayer(dir)==1)
+    public int updateGame(String dir){
+        if(updatePlayer(dir)==1)
             return 1;
            
-        if(UpdateInvaders() == 1)
+        if(updateInvaders() == 1)
             return 1;
         
-        UpdateBarriers();
+        updateBarriers();
         return 0;
     }
     
-    private int UpdatePlayer(String dir){
+    /**Responsável por atualizar o jogador de um frame para o próximo frame, atualizando a posição e status dele.
+     * @param dir String que indica um comando do jogador:
+     *  a - Move para esquerda
+     *  d - Move para a direita
+     *  Espaço - Atira
+     *  x - Fecha o jogo 
+     *  @return 0 indica que o jogo continua normalmente, 1 indica que o jogo deve acabar.
+     * @author Gustavo Moura
+     */
+    private int updatePlayer(String dir){
         
-        if(cannon.GetLife() == 0)
+        if(cannon.getLife() == 0)
             return 1;
          
-        mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(false);
+        mapCell[cannon.getPosX()][cannon.getPosY()].setPlayer(false);
         if(dir.equals("a")){
-            if(cannon.GetPosX() > 0)
-                cannon.Move(-1);
+            if(cannon.getPosX() > 0)
+                cannon.move(-1);
         }else if(dir.equals("d")){
-            if(cannon.GetPosX() < sizeX - 1)
-                cannon.Move(1);
+            if(cannon.getPosX() < sizeX - 1)
+                cannon.move(1);
         }else if(dir.equals(" ")){
-            if(cannonShot.GetLife() == 0){
-                Shot(cannon.GetPosX(),cannon.GetPosY(),true);
+            if(cannonShot.getLife() == 0){
+                shot(cannon.getPosX(),cannon.getPosY(),true);
             }
         }
-        if(cannonShot.GetLife() == 1){
-            ShotMove(cannonShot);
+        if(cannonShot.getLife() == 1){
+            shotMove(cannonShot);
         }
-        mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(true);  
+        mapCell[cannon.getPosX()][cannon.getPosY()].setPlayer(true);  
         return 0;
     }
 
-    private int UpdateInvaders(){
+    /**Responsável por atualizar os inimigos de um frame para o próximo frame, atualizando a posição e status deles.
+     * Além dos inimigos em si, atualiza o tiro deles.
+     * @return 0 indica que o jogo continua normalmente, 1 indica que o jogo deve acabar.
+     * @author Gustavo Moura
+     */
+    private int updateInvaders(){
         invadersWalk++;
         if(invadersWalk == 1){
             invadersWalk = 0;
             for(int x = 0;x<invadersX;x++)
                 for(int y = 0;y<invadersY;y++)
-                    mapCell[invaders[x][y].GetPosX()][invaders[x][y].GetPosY()].SetInvader(false);
+                    mapCell[invaders[x][y].getPosX()][invaders[x][y].getPosY()].setInvader(false);
 
             boolean hasToMoveDown = false;
             
             for(int x = 0;x<invadersX && hasToMoveDown == false ;x++)
                 for(int y = 0;y<invadersY && hasToMoveDown == false;y++){ 
-                    if(invaders[x][y].GetPosX() + invadersDir > sizeX-1 || invaders[x][y].GetPosX() + invadersDir < 0){
+                    if(invaders[x][y].getPosX() + invadersDir > sizeX-1 || invaders[x][y].getPosX() + invadersDir < 0){
                         hasToMoveDown = true;
                         invadersDir *= -1;
                     }
                     
-                    if(invaders[x][y].GetPosY() == sizeY-2)
+                    if(invaders[x][y].getPosY() == sizeY-2)
                         return 1;
                 }
 
             for(int x = 0;x<invadersX;x++)
                 for(int y = 0;y<invadersY;y++){ 
                     if(hasToMoveDown == true){
-                        invaders[x][y].MoveDown();
+                        invaders[x][y].moveDown();
                     }else{
-                        invaders[x][y].Move(invadersDir);
+                        invaders[x][y].move(invadersDir);
                     }
-                    if(invaders[x][y].GetLife() > 0){
-                        mapCell[invaders[x][y].GetPosX()][invaders[x][y].GetPosY()].SetInvader(true);
+                    if(invaders[x][y].getLife() > 0){
+                        mapCell[invaders[x][y].getPosX()][invaders[x][y].getPosY()].setInvader(true);
                     }
                 }
 
@@ -171,7 +186,7 @@ public class GameEngine{
         }
         
         //INIMIGOS ATIRAM
-        if(invaderShot.GetLife() == 0){
+        if(invaderShot.getLife() == 0){
 
             invaderShot.switchIsRand();
             int invToShotX;
@@ -179,30 +194,33 @@ public class GameEngine{
 
             Random rn = new Random();
             invToShotY = rn.nextInt(invadersY - 0) + 0;
-            if(!invaderShot.isRand() && cannon.GetPosX() - invadersOffsetX < invadersX){
-                invToShotX = cannon.GetPosX();
-                Shot(invToShotX,invToShotY+invadersOffsetY,false);
+            if(!invaderShot.isRand() && cannon.getPosX() - invadersOffsetX < invadersX){
+                invToShotX = cannon.getPosX();
+                shot(invToShotX,invToShotY+invadersOffsetY,false);
             }else{
                 invToShotX = rn.nextInt(invadersX - 0) + 0;
-                Shot(invToShotX + invadersOffsetX,invToShotY+invadersOffsetY,false);
+                shot(invToShotX + invadersOffsetX,invToShotY+invadersOffsetY,false);
             }
 
         }else{
-            ShotMove(invaderShot);
+            shotMove(invaderShot);
         }
         
         return 0;
     }
     
-    private void UpdateBarriers(){
+    /**Responsável por atualizar as barreiras de um frame para o próximo frame, atualizando o status delas.
+     * @author Gustavo Moura
+     */
+    private void updateBarriers(){
         int barrierCountX = 0;
         int barrierCountY = 0;
         for(int j = sizeY-4;j<sizeY-2;j++){
             barrierCountX = 0;
             for(int i = 0;i<sizeX;i++){
                 if(i%4 == 1){
-                    if(barriers[barrierCountX][barrierCountY].GetLife() == 0){
-                        mapCell[i][j].SetBarrier(false);   
+                    if(barriers[barrierCountX][barrierCountY].getLife() == 0){
+                        mapCell[i][j].setBarrier(false);   
                     }
                     barrierCountX++;
                 }
@@ -218,13 +236,13 @@ public class GameEngine{
      * @param fromPlayer Indica se o tiro é de um jogador (true) ou inimigo (false).
      * @author Gustavo Moura
      */
-    public void Shot(int x,int y,boolean fromPlayer){
+    public void shot(int x,int y,boolean fromPlayer){
             if(fromPlayer){
                 cannonShot.spawnShot(x, y);
             }else{
                 invaderShot.spawnShot(x, y);
             }
-            mapCell[x][y].SetShot(true,fromPlayer);
+            mapCell[x][y].setShot(true,fromPlayer);
     }
 
     /**Responsável por chamar o método de mover o tiro e verifica se o tiro bateu algo, como em uma barreira,
@@ -232,46 +250,46 @@ public class GameEngine{
      * @param shot O tiro a ser movido
      * @author Gustavo Moura
      */
-    public void ShotMove(Shot shot){
+    public void shotMove(Shot shot){
 
         if(!shot.isFromPlayer()){
-            if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==8){
-                cannon.ReduceLife();
-                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
-                shot.ReduceLife();
+            if(mapCell[shot.getPosX()][shot.getPosY()].getCellInfo()==8){
+                cannon.reduceLife();
+                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,false);
+                shot.reduceLife();
                 return;
             }
-            if(shot.GetPosY() == sizeY-1){
-                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
-                shot.ReduceLife();
+            if(shot.getPosY() == sizeY-1){
+                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,false);
+                shot.reduceLife();
                 return;
             }
         }
-        if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==5){
-            barriers[shot.GetPosX()/4][shot.GetPosY()%2].ReduceLife();
-            mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.isFromPlayer());
-            shot.ReduceLife();
+        if(mapCell[shot.getPosX()][shot.getPosY()].getCellInfo()==5){
+            barriers[shot.getPosX()/4][shot.getPosY()%2].reduceLife();
+            mapCell[shot.getPosX()][shot.getPosY()].setShot(false,shot.isFromPlayer());
+            shot.reduceLife();
             return;
         }
 
         if(shot.isFromPlayer()){
-            if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo() == 6){
-                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,true);
-                invaders[shot.GetPosX()-invadersOffsetX][shot.GetPosY()-invadersOffsetY].ReduceLife();
-                shot.ReduceLife();
-                cannon.SetScore(cannon.GetScore()+10);
+            if(mapCell[shot.getPosX()][shot.getPosY()].getCellInfo() == 6){
+                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,true);
+                invaders[shot.getPosX()-invadersOffsetX][shot.getPosY()-invadersOffsetY].reduceLife();
+                shot.reduceLife();
+                cannon.setScore(cannon.getScore()+10);
                 return;
             }
-            if(shot.GetPosY() == 1){
-                mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
-                shot.ReduceLife();
+            if(shot.getPosY() == 1){
+                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,false);
+                shot.reduceLife();
                 return;
             }
         }
 
-        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.isFromPlayer());
+        mapCell[shot.getPosX()][shot.getPosY()].setShot(false,shot.isFromPlayer());
         shot.move();
-        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(true,shot.isFromPlayer());
+        mapCell[shot.getPosX()][shot.getPosY()].setShot(true,shot.isFromPlayer());
     }
     
     /**Percorre as células (Sistema de coordenadas) do mapa e baseado na informação coletada de cada uma (o que tem em cada uma), printa um caracter
@@ -284,7 +302,7 @@ public class GameEngine{
     public void printMap(){
         for(int y = 0;y<sizeY;y++){
             for(int x = 0;x<sizeX;x++){  
-                switch(mapCell[x][y].GetCellInfo()){
+                switch(mapCell[x][y].getCellInfo()){
                     case 0:
                         System.out.print("   ");
                         break;
@@ -292,10 +310,10 @@ public class GameEngine{
                         System.out.print(" ▲ ");
                         break;
                     case 2:
-                        System.out.print(invaders[x-invadersOffsetX][y-invadersOffsetY].GetSprite());
+                        System.out.print(invaders[x-invadersOffsetX][y-invadersOffsetY].getSprite());
                         break;
                     case 3:
-                        switch (barriers[x/4][y%2].GetLife()){
+                        switch (barriers[x/4][y%2].getLife()){
                             case 4:
                                 System.out.print("███");
                                 break;
@@ -333,10 +351,10 @@ public class GameEngine{
      * @author Gustavo Moura
      */
     public void printPlayerStatus(){
-        System.out.println("SCORE:" + cannon.GetScore());
+        System.out.println("SCORE:" + cannon.getScore());
         System.out.print("LIFES: ");
-        System.out.print(cannon.GetLife() + " ");
-        for(int i = 0;i<cannon.GetLife();i++){
+        System.out.print(cannon.getLife() + " ");
+        for(int i = 0;i<cannon.getLife();i++){
             System.out.print("❤ ");
         }
         System.out.println();       

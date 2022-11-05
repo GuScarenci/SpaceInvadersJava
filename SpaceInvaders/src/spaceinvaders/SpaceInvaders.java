@@ -4,12 +4,16 @@ import graphics.Printer;
 
 import java.util.*; 
 
-/**
+/**Classe que contêm a main e roda o jogo em loop.
  * 
  * @author Gustavo Moura
  */
 public class SpaceInvaders {
 
+    /**Exibe a tela incial, recebe um input do usuário e caso diferente de 'x' 
+     * roda o jogo, em loop. Após o jogo acabar, exibe a tela final. 
+     * @param args 
+     */
     public static void main(String[] args) {
 
         //Tamanho do mapa
@@ -21,9 +25,9 @@ public class SpaceInvaders {
         Printer printer = new Printer();
         
         //Limpa o console (não funciona para todas as máquinas).
-        printer.Clear();
+        printer.clear();
 
-        printer.PrintStartMenu();
+        printer.printStartMenu();
         
         //GameEngine, responsável por armazenar os elementos do jogo e atualizar o jogo como um todo,
         //também é responsável por parte da parte gráfica, imprimindo o mapa e as informações do jogador.
@@ -49,15 +53,14 @@ public class SpaceInvaders {
             
             dir = sc.nextLine();
 
-            finishGame = game.UpdateGame(dir);
+            finishGame = game.updateGame(dir);
         }
 
-        printer.Clear();
-        printer.PrintEndMenu();
+        printer.clear();
+        printer.printEndMenu();
 
         dir = sc.nextLine();
 
         sc.close();  
     }
-    
 }
