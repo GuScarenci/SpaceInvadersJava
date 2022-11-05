@@ -272,7 +272,7 @@ public class GameEngine{
                         System.out.print("░░░");
                         break;
                     case 7:
-                        System.out.print(" ▀ ");
+                        System.out.print(" ▿ ");
                         break;
                 }
             }
