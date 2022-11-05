@@ -1,9 +1,20 @@
 package elements;
 
+/**Classe que representa e guarda algumas informações sobre os inimigos no jogo.
+ * 
+ * @author Gustavo Moura
+ */
 public class Invader extends GameObject{
-    int type;
+    private int type;
     private String sprite;
 
+   
+    /**Construtor do Invasor.
+    * Baseado na posição em Y inicial do inimigo, o tipo do inimigo será definido, definindo sua sprite.
+    * @param intPosX Posição em X inicial do inimigo.
+    * @param intPoY Posição em Y inicial do inimigo. 
+    * @author Gustavo Moura
+    */
     public Invader(int posX,int posY){
         super(posX,posY,1);
 
@@ -19,15 +30,25 @@ public class Invader extends GameObject{
         }
     }
     
+    /**Método responsável por mover o inimigo em X.
+    * @param i Paramêtro que indica para onde o inimigo se moverá em X. 
+    * @author Gustavo Moura
+    */
     public void Move(int i){
         SetPosX(GetPosX()+i);
     }
-
+    
+    /**Método responsável por mover o inimigo em Y em uma unidade.
+    * @author Gustavo Moura
+    */
     public void MoveDown(){
         SetPosY(GetPosY()+1);
     }
-
+    
+    /**Método Getter da sprite do inimigo.
+    * @author Gustavo Moura
+    */
     public String GetSprite(){
-        return this.sprite;
+        return sprite;
     }
 }

@@ -1,5 +1,11 @@
 package graphics;
 
+/**
+ *Classe responsável por printar coisas na tela.
+ * 
+ * 
+ * @author Gustavo Moura 
+ */
 public class Printer {
     
     public void PrintStartMenu(){

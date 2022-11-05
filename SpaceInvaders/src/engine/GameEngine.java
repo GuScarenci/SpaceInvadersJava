@@ -3,6 +3,10 @@ import elements.*;
 
 import java.util.Random;
 
+/**
+ * 
+ * @author Gustavo Moura
+ */
 public class GameEngine{
 
     //MapVariables
@@ -86,10 +90,10 @@ public class GameEngine{
         mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(false);
         if(dir.equals("a")){
             if(cannon.GetPosX() > 0)
-            cannon.Move(-1);
+                cannon.Move(-1);
         }else if(dir.equals("d")){
             if(cannon.GetPosX() < sizeX - 1)
-            cannon.Move(1);
+                cannon.Move(1);
         }else if(dir.equals(" ")){
             if(cannonShot.GetLife() == 0){
                 Shot(cannon.GetPosX(),cannon.GetPosY(),true);

@@ -1,5 +1,9 @@
 package elements;
 
+/**Classe que representa e guarda algumas informações sobre os tiros no jogo.
+ * 
+ * @author Gustavo Moura
+ */
 public class Shot extends GameObject{
     private boolean fromPlayer;
     private boolean isRand;
