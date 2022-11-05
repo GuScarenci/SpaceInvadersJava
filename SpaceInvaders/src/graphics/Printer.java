@@ -1,13 +1,15 @@
 package graphics;
 
 /**
- *Classe responsável por printar coisas na tela.
- * 
+ *Classe responsável por imprimir coisas na tela.
  * 
  * @author Gustavo Moura 
  */
 public class Printer {
     
+    /**Responsável por imprimir a tela inicial.
+     * @author Gustavo Moura
+     */
     public void PrintStartMenu(){
         PrintSpaceInvadersLogo();
         System.out.println();
@@ -29,6 +31,9 @@ public class Printer {
         System.out.println("By: Gustavo Moura Scarenci");
     }
 
+    /**Responsável por imprimir a tela final.
+     * @author Gustavo Moura
+     */
     public void PrintEndMenu(){
         PrintSpaceInvadersLogo();
         System.out.println();
@@ -39,10 +44,19 @@ public class Printer {
         System.out.println("By: Gustavo Moura Scarenci");
     }
 
+    /**Responsável por limpar o console.
+     * NÃO FUNCIONA SEMPRE, DEPENDENDO DA SUA MÁQUINA!
+     * @author Gustavo Moura
+     */
     public void Clear(){
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
     }
+    
+    /**Responsável por printar a "logo" do Space Invaders, chamado nas telas de 
+     * início e fim para fins estéticos.
+     * @author Gustavo Moura
+     */
     public void PrintSpaceInvadersLogo(){
         System.out.println("*   ███* ███  ███  ███  ███ ");
         System.out.println("  * █    █ █  █ █ *█    █   ");

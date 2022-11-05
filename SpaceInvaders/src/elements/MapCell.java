@@ -1,7 +1,7 @@
 package elements;
 
 /**Classe que representa e guarda algumas informações sobre as células que compõem o mapa no jogo.
- * 
+ * Essas células acabam por funcionar como um sistema de coordenadas no jogo.
  * @author Gustavo Moura
  */
 public class MapCell{
@@ -16,6 +16,7 @@ public class MapCell{
     *   0 - Indica uma célula vazia.
     *   1 - Indica que nessa célula está apenas o jogador.
     *   2 - Indica que nessa célula está apenas um inimigo. 
+    *   etc...
     *@return Informação da célula do mapa
     *@author Gustavo Moura
     */
@@ -80,7 +81,7 @@ public class MapCell{
 
     /**Método Setter para falar que nessa célula há tiros ou não.
     *@param x Caso true, indica que há tiros nessa célula e caso falso, indica que não.
-    **@param fromPlayer Caso true, se refere ao tiro do jogador, caso false,se refere ao tiro de um inimigo.
+    *@param fromPlayer Caso true, se refere ao tiro do jogador, caso false,se refere ao tiro de um inimigo.
     *@author Gustavo Moura
     */
     public void SetShot(boolean x,boolean fromPlayer){

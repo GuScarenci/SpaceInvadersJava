@@ -3,8 +3,9 @@ import elements.*;
 
 import java.util.Random;
 
-/**
- * 
+/**Classe GameEngine, responsável por fazer quase tudo em termos de funcionamento do jogo, como criar os elementos,
+ * gerar o mapa, chamar os métodos de atualização do estado do jogo, etc.
+ * No momento, existem algumas funções de impressão que futuramente serão passadas para o package graphics.
  * @author Gustavo Moura
  */
 public class GameEngine{
@@ -28,7 +29,12 @@ public class GameEngine{
     int invadersOffsetX, invadersOffsetY;
     Shot invaderShot;
     
-    //Constructor 
+    /**Construtor da GameEngine
+     * Cria o mapa, coloca as barreiras, o jogador e os inimigos em suas posições iniciais.
+     * @param sizeX tamanho em X (largura) do mapa
+     * @param sizeY tamanho em Y (altura) do mapa
+     * @author Gustavo Moura
+     */
     public GameEngine(int sizeX, int sizeY){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -80,13 +86,23 @@ public class GameEngine{
         invadersWalk = 0;
     }
     
+    /**Responsável por atualizar o jogo de um frame para o próximo frame, atualizando as posições e status dos objetos.
+     * @param dir String que indica um comando do jogador:
+     *  a - Move para esquerda
+     *  d - Move para a direita
+     *  Espaço - Atira
+     *  x - Fecha o jogo 
+     * @return Caso 0, o jogo segue normalmente, caso 1, o jogo termina.
+     * @author Gustavo Moura
+     */
     public int UpdateGame(String dir){
 
+        //Verifica se o player perdeu todas as vidas
         if(cannon.GetLife() == 0){
             return 1;
         }
 
-        //PLAYER
+        //Atualiza player
         mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(false);
         if(dir.equals("a")){
             if(cannon.GetPosX() > 0)
@@ -99,12 +115,9 @@ public class GameEngine{
                 Shot(cannon.GetPosX(),cannon.GetPosY(),true);
             }
         }
-
         if(cannonShot.GetLife() == 1){
             ShotMove(cannonShot);
-        }else{
         }
-
         mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(true);
 
         //NAVES INIMIGAS
@@ -146,16 +159,15 @@ public class GameEngine{
         }
 
         //INIMIGOS ATIRAM
-
         if(invaderShot.GetLife() == 0){
 
-            invaderShot.SwitchIsRand();
+            invaderShot.switchIsRand();
             int invToShotX;
             int invToShotY;
 
             Random rn = new Random();
             invToShotY = rn.nextInt(invadersY - 0) + 0;
-            if(!invaderShot.IsRand() && cannon.GetPosX() - invadersOffsetX < invadersX){
+            if(!invaderShot.isRand() && cannon.GetPosX() - invadersOffsetX < invadersX){
                 invToShotX = cannon.GetPosX();
                 Shot(invToShotX,invToShotY+invadersOffsetY,false);
             }else{
@@ -185,41 +197,50 @@ public class GameEngine{
         return 0;
     }
 
+    /**Responsável por chamar o método de "spawnar" o tiro quando o jogador dá o comando para tal ou quanndo um inimigo precisa atirar.
+     * @param dir String que indica um comando do jogador:
+     * @param x Posição em X inicial do tiro.
+     * @param y Posição em Y inicial do tiro.
+     * @param fromPlayer Indica se o tiro é de um jogador (true) ou inimigo (false).
+     * @author Gustavo Moura
+     */
     public void Shot(int x,int y,boolean fromPlayer){
             if(fromPlayer){
-                cannonShot.SpawnShot(x, y);
+                cannonShot.spawnShot(x, y);
             }else{
-                invaderShot.SpawnShot(x, y);
+                invaderShot.spawnShot(x, y);
             }
             mapCell[x][y].SetShot(true,fromPlayer);
     }
 
+    /**Responsável por chamar o método de mover o tiro e verifica se o tiro bateu algo, como em uma barreira,
+     * no jogador, caso o tiro seja do inimigo ou em um inimigo, caso o tiro seja do jogador, também se o tiro saiu do mapa.
+     * @param shot O tiro a ser movido
+     * @author Gustavo Moura
+     */
     public void ShotMove(Shot shot){
 
-        if(!shot.IsFromPlayer()){
+        if(!shot.isFromPlayer()){
             if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==8){
                 cannon.ReduceLife();
                 mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
                 shot.ReduceLife();
                 return;
             }
-
             if(shot.GetPosY() == sizeY-1){
                 mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
                 shot.ReduceLife();
                 return;
             }
         }
-
         if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo()==5){
             barriers[shot.GetPosX()/4][shot.GetPosY()%2].ReduceLife();
-            mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.IsFromPlayer());
+            mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.isFromPlayer());
             shot.ReduceLife();
             return;
         }
 
-        if(shot.IsFromPlayer()){
-
+        if(shot.isFromPlayer()){
             if(mapCell[shot.GetPosX()][shot.GetPosY()].GetCellInfo() == 6){
                 mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,true);
                 invaders[shot.GetPosX()-invadersOffsetX][shot.GetPosY()-invadersOffsetY].ReduceLife();
@@ -227,7 +248,6 @@ public class GameEngine{
                 cannon.SetScore(cannon.GetScore()+10);
                 return;
             }
-
             if(shot.GetPosY() == 1){
                 mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,false);
                 shot.ReduceLife();
@@ -235,11 +255,18 @@ public class GameEngine{
             }
         }
 
-        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.IsFromPlayer());
-        shot.Move();
-        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(true,shot.IsFromPlayer());
+        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(false,shot.isFromPlayer());
+        shot.move();
+        mapCell[shot.GetPosX()][shot.GetPosY()].SetShot(true,shot.isFromPlayer());
     }
     
+    /**Percorre as células (Sistema de coordenadas) do mapa e baseado na informação coletada de cada uma (o que tem em cada uma), printa um caracter
+     * imprime um caracter referente ao estado. Por exemplo:
+     *   ▲ -  Caso nessa célula haja o jogador.
+     *  ███ -  Caso nessa célula haja um barreira.
+     *  etc.
+     * @author Gustavo Moura
+     */
     public void printMap(){
         for(int y = 0;y<sizeY;y++){
             for(int x = 0;x<sizeX;x++){  
@@ -287,7 +314,10 @@ public class GameEngine{
         }
         System.out.println("-");
     }
-
+    
+    /**Método responsável por imprimir a pontuação e a vida do jogador.
+     * @author Gustavo Moura
+     */
     public void printPlayerStatus(){
         System.out.println("SCORE:" + cannon.GetScore());
         System.out.print("LIFES: ");
