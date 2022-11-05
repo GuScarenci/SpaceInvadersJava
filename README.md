@@ -10,4 +10,7 @@
 
 https://user-images.githubusercontent.com/93041836/200143386-9e880200-1fd9-4f27-b021-49fe20e2cdaa.mp4
 
+## Diagrama de classes em UML
+
+![SpaceInvadersUML](https://user-images.githubusercontent.com/93041836/200143580-dfb32c6d-df00-4e53-97ac-b8b495a44770.png)
 
