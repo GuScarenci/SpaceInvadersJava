@@ -96,13 +96,21 @@ public class GameEngine{
      * @author Gustavo Moura
      */
     public int UpdateGame(String dir){
-
-        //Verifica se o player perdeu todas as vidas
-        if(cannon.GetLife() == 0){
+        if(UpdatePlayer(dir)==1)
             return 1;
-        }
-
-        //Atualiza player
+           
+        if(UpdateInvaders() == 1)
+            return 1;
+        
+        UpdateBarriers();
+        return 0;
+    }
+    
+    private int UpdatePlayer(String dir){
+        
+        if(cannon.GetLife() == 0)
+            return 1;
+         
         mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(false);
         if(dir.equals("a")){
             if(cannon.GetPosX() > 0)
@@ -118,9 +126,11 @@ public class GameEngine{
         if(cannonShot.GetLife() == 1){
             ShotMove(cannonShot);
         }
-        mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(true);
+        mapCell[cannon.GetPosX()][cannon.GetPosY()].SetPlayer(true);  
+        return 0;
+    }
 
-        //NAVES INIMIGAS
+    private int UpdateInvaders(){
         invadersWalk++;
         if(invadersWalk == 1){
             invadersWalk = 0;
@@ -129,12 +139,14 @@ public class GameEngine{
                     mapCell[invaders[x][y].GetPosX()][invaders[x][y].GetPosY()].SetInvader(false);
 
             boolean hasToMoveDown = false;
+            
             for(int x = 0;x<invadersX && hasToMoveDown == false ;x++)
                 for(int y = 0;y<invadersY && hasToMoveDown == false;y++){ 
                     if(invaders[x][y].GetPosX() + invadersDir > sizeX-1 || invaders[x][y].GetPosX() + invadersDir < 0){
                         hasToMoveDown = true;
                         invadersDir *= -1;
                     }
+                    
                     if(invaders[x][y].GetPosY() == sizeY-2)
                         return 1;
                 }
@@ -157,7 +169,7 @@ public class GameEngine{
                 invadersOffsetX+= invadersDir;
             }
         }
-
+        
         //INIMIGOS ATIRAM
         if(invaderShot.GetLife() == 0){
 
@@ -179,7 +191,10 @@ public class GameEngine{
             ShotMove(invaderShot);
         }
         
-        //BARREIRAS
+        return 0;
+    }
+    
+    private void UpdateBarriers(){
         int barrierCountX = 0;
         int barrierCountY = 0;
         for(int j = sizeY-4;j<sizeY-2;j++){
@@ -193,10 +208,9 @@ public class GameEngine{
                 }
             }
             barrierCountY++;
-        }
-        return 0;
+        }  
     }
-
+    
     /**Responsável por chamar o método de "spawnar" o tiro quando o jogador dá o comando para tal ou quanndo um inimigo precisa atirar.
      * @param dir String que indica um comando do jogador:
      * @param x Posição em X inicial do tiro.
