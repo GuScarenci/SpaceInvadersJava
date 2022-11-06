@@ -12,5 +12,4 @@ https://user-images.githubusercontent.com/93041836/200143386-9e880200-1fd9-4f27-
 
 ## Diagrama de classes em UML
 
-![SpaceInvadersUML](https://user-images.githubusercontent.com/93041836/200143580-dfb32c6d-df00-4e53-97ac-b8b495a44770.png)
-
+![SpaceInvadersUML](https://user-images.githubusercontent.com/93041836/200171148-ea7121bd-eece-4183-bf0c-4a88c3f3e982.png)
