@@ -57,8 +57,11 @@ public class SpaceInvaders {
         }
 
         printer.clear();
-        printer.printEndMenu();
-
+        if(finishGame == 1)
+            printer.printBadEnd();
+        else if(finishGame == 2)
+            printer.printGoodEnd();
+        
         dir = sc.nextLine();
 
         sc.close();  

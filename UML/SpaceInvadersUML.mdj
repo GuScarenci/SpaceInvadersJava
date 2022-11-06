@@ -2392,7 +2392,24 @@
 											"top": 647,
 											"width": 157.1806640625,
 											"height": 13,
-											"text": "+printEndMenu()",
+											"text": "+printBadEnd()",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGETOkJX7PX48s=",
+											"_parent": {
+												"$ref": "AAAAAAGESIMIAlPIPgo="
+											},
+											"model": {
+												"$ref": "AAAAAAGETOkJGLPU0Ac="
+											},
+											"font": "Arial;13;0",
+											"left": 1053,
+											"top": 662,
+											"width": 157.1806640625,
+											"height": 13,
+											"text": "+printGoodEnd()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2406,7 +2423,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1053,
-											"top": 662,
+											"top": 677,
 											"width": 157.1806640625,
 											"height": 13,
 											"text": "+clear()",
@@ -2423,7 +2440,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1053,
-											"top": 677,
+											"top": 692,
 											"width": 157.1806640625,
 											"height": 13,
 											"text": "+printSpaceInvadersLogo()",
@@ -2434,7 +2451,7 @@
 									"left": 1048,
 									"top": 627,
 									"width": 167.1806640625,
-									"height": 68
+									"height": 83
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -2474,7 +2491,7 @@
 							"left": 1048,
 							"top": 592,
 							"width": 167.1806640625,
-							"height": 103,
+							"height": 118,
 							"nameCompartment": {
 								"$ref": "AAAAAAGESIMIAVPCUbg="
 							},
@@ -6451,7 +6468,15 @@
 							"_parent": {
 								"$ref": "AAAAAAGESIMIAVO/GJs="
 							},
-							"name": "printEndMenu"
+							"name": "printBadEnd"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGETOkJGLPU0Ac=",
+							"_parent": {
+								"$ref": "AAAAAAGESIMIAVO/GJs="
+							},
+							"name": "printGoodEnd"
 						},
 						{
 							"_type": "UMLOperation",
@@ -6559,7 +6584,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGESNfVwxTawTs="
 									},
-									"name": "posX;int"
+									"name": "posX;int",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",

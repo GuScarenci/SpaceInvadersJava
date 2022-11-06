@@ -94,10 +94,13 @@ public class GameEngine{
      *  d - Move para a direita
      *  Espaço - Atira
      *  x - Fecha o jogo 
-     * @return Caso 0, o jogo segue normalmente, caso 1, o jogo termina.
+     * @return Caso 0, o jogo segue normalmente, caso 1, o jogo é perdido, caso 2, o jogo é vencido.
      * @author Gustavo Moura
      */
     public int updateGame(String dir){
+        if(cannon.getScore() == 10 * invadersX * invadersY)
+            return 2;
+           
         if(updatePlayer(dir)==1)
             return 1;
            
@@ -282,7 +285,7 @@ public class GameEngine{
                 return;
             }
             if(shot.getPosY() == 1){
-                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,false);
+                mapCell[shot.getPosX()][shot.getPosY()].setShot(false,true);
                 shot.reduceLife();
                 return;
             }

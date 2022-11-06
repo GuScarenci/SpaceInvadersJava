@@ -31,13 +31,26 @@ public class Printer {
         System.out.println("By: Gustavo Moura Scarenci");
     }
 
-    /**Responsável por imprimir a tela final.
+    /**Responsável por imprimir a tela final indicando que o jogador perdeu.
      * @author Gustavo Moura
      */
-    public void printEndMenu(){
+    public void printBadEnd(){
         printSpaceInvadersLogo();
         System.out.println();
         System.out.println("Você perdeu! Tente novamente.");
+        System.out.println();
+        System.out.println("Mais detalhes no código fonte e no readme enviado no zip junto com esse projeto.");
+        System.out.println();
+        System.out.println("By: Gustavo Moura Scarenci");
+    }
+    
+    /**Responsável por imprimir a tela final indicando que o jogador venceu.
+     * @author Gustavo Moura
+     */
+    public void printGoodEnd(){
+        printSpaceInvadersLogo();
+        System.out.println();
+        System.out.println("Você ganhou! Parabéns!");
         System.out.println();
         System.out.println("Mais detalhes no código fonte e no readme enviado no zip junto com esse projeto.");
         System.out.println();
