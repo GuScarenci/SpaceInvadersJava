@@ -9,6 +9,6 @@ import javafx.scene.paint.Color;
 public class Shot extends GameObject{
     
     public Shot(int x, int y, int w, int h, String type, String file){
-        super( x, y, w, h, type, file,1);
+        super( x, y, w, h, type, file,1,1);
     }
 }

@@ -18,15 +18,9 @@ public class GameObject extends ImageView{
     public boolean dead = false;
     int lifes;
     final String type;
-    
-    /*GameObject(int x, int y, int w, int h, String type, Color color){
-        super(w,h,color);
-        this.type = type;
-        setTranslateX(x);
-        setTranslateY(y);
-    }*/
+    int categorie;
 
-    public GameObject(int x, int y, int w, int h, String type, String file, int lifes) {
+    public GameObject(int x, int y, int w, int h, String type, String file, int lifes,int categorie) {
         InputStream is = null;
         try {
             is = GameObject.class.getResource(file).openStream();
@@ -38,6 +32,7 @@ public class GameObject extends ImageView{
         
         this.type = type;
         this.lifes = lifes;
+        this.categorie = categorie;
         setTranslateX(x);
         setTranslateY(y);
     }
@@ -69,6 +64,10 @@ public class GameObject extends ImageView{
     
     public int getLife(){
         return lifes;
+    }
+    
+    public int getCategorie(){
+        return categorie;
     }
     
 }

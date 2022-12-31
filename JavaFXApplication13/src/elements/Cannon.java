@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 public class Cannon extends GameObject{
     
     public Cannon(int x, int y, int w, int h, String type, String file){
-        super( x, y, w, h, type, file,3);
+        super( x, y, w, h, type, file,3,1);
     }
     
     @Override

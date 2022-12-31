@@ -1,5 +1,7 @@
 package spaceinvaders;
 import elements.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,8 +10,8 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -19,21 +21,22 @@ import javafx.stage.Stage;
 public class SpaceInvaders extends Application {
     
     final private Pane root  =  new Pane();
+    //Label scoreLabel = new Label("This is a label");
     
+    int score = 0;
+    int spriteAnimationHelper = 1;
     int enemyMovingSide = 1;
     boolean moveDown = false;
     
     private double t = 0;
-    
     final private Cannon cannon = new Cannon(300,550,40,40,"cannon","/spaceinvaders/nave.png");
-    //Label scoreLabel = new Label("This is a label");
-    
+          
     private Parent createContent(){
         root.setPrefSize(800,600);
         root.setStyle("-fx-background-color: blue");
        
-        //b.setFont(Font.loadFont("/spaceinvaders/Pixeboy.ttf", 45));
-        
+        //scoreLabel.setFont(Font.loadFont("/spaceinvaders/Pixeboy.ttf", 45));
+   
         //root.getChildren().add(scoreLabel);        
         root.getChildren().add(cannon);
         
@@ -52,22 +55,26 @@ public class SpaceInvaders extends Application {
     }
     
     private void nextLevel(){
-        
-        for(int i = 0; i < 11; i++){
-            GameObject s = new Enemy(30 + i*40, 30, 30, 30, "enemy", "/spaceinvaders/inimigo3.1.png");
+        //set up barriers
+        for(int i = 0; i < 5; i++){
+            GameObject s = new Barrier(60 + i*160, 470, 80, 40, "barrier", "/spaceinvaders/barrier0.png");
             root.getChildren().add(s);
         }
         
+        //set up enemies
+        for(int i = 0; i < 11; i++){
+            GameObject s = new Enemy(30 + i*40, 30, 40, 30, "enemy", "/spaceinvaders/inimigo3.1.png",3);
+            root.getChildren().add(s);
+        }
         for(int i = 0; i< 2; i++){
             for(int j = 0; j < 11; j++){
-                GameObject s = new Enemy(30 + j*40, 70 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo2.1.png");
+                GameObject s = new Enemy(30 + j*40, 70 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo2.1.png",2);
                 root.getChildren().add(s);
             }
         }
-        
         for(int i = 0; i< 2; i++){
             for(int j = 0; j < 11; j++){
-                GameObject s = new Enemy(30 + j*40, 150 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo1.1.png");
+                GameObject s = new Enemy(30 + j*40, 150 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo1.1.png",1);
                 root.getChildren().add(s);
             }
         }
@@ -112,20 +119,29 @@ public class SpaceInvaders extends Application {
                         
                         cannon.reduceLife();
                         s.reduceLife();
-                    }                    
+                    }
+                    
+                    sprites().stream().filter(e ->  e.getType().equals("barrier")).forEach(barrier-> {
+                    if(s.getBoundsInParent().intersects(barrier.getBoundsInParent())){
+                        barrier.reduceLife();
+                        s.reduceLife();
+                    }});
                     break;
                 
                 case "cannonbullet":
                     s.moveUp();
                     sprites().stream().filter(e ->  e.getType().equals("enemy")).forEach(enemy-> {
                     if(s.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-                        //enemy.dead = true;
-                        //s.dead =  true;
-                        
                         enemy.reduceLife();
                         s.reduceLife();
-                    }
-                    });
+                        score+=enemy.getCategorie()*10;
+                    }});
+                    
+                    sprites().stream().filter(e ->  e.getType().equals("barrier")).forEach(barrier-> {
+                    if(s.getBoundsInParent().intersects(barrier.getBoundsInParent())){
+                        barrier.reduceLife();
+                        s.reduceLife();
+                    }});
                     break;
                     
                 case "enemy":
@@ -135,13 +151,38 @@ public class SpaceInvaders extends Application {
                         s.moveLeft();
                     }
 
-                    if(t>2){
+                    if(t>3){
                         if(Math.random() < 0.001){
                             shoot(s);
                         }
+                        String file;
+                        if(spriteAnimationHelper == 1){
+                            file = "/spaceinvaders/inimigo" + s.getCategorie() + ".1.png";
+                        }else{
+                            file = "/spaceinvaders/inimigo" + s.getCategorie() + ".2.png";
+                        }
+                        InputStream is = null;
+                        try {
+                            is = GameObject.class.getResource(file).openStream();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Image image = new Image(is, 30, 30, false, false);
+                        s.setImage(image);
+                        spriteAnimationHelper*= -1;
                     }
-                    
                     break;
+                case "barrier":
+                    String file;
+                    file = "/spaceinvaders/barrier" + (4 - s.getLife()) + ".png";
+                    InputStream is = null;
+                    try {
+                        is = GameObject.class.getResource(file).openStream();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Image image = new Image(is, 30, 30, false, false);
+                    s.setImage(image);          
             }
  
         });
@@ -151,7 +192,7 @@ public class SpaceInvaders extends Application {
             return (s.getLife() == 0);
         });
         
-        if(t > 2){
+        if(t > 3){
             t = 0;
         }
     }
