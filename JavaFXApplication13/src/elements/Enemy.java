@@ -6,10 +6,10 @@ import javafx.scene.paint.Color;
  *
  * @author gustavoscarenci
  */
-public class Enemy extends Sprite{
+public class Enemy extends GameObject{
     
-    public Enemy(int x, int y, int w, int h, String type, Color color){
-        super( x, y, w, h, type, color);
+    public Enemy(int x, int y, int w, int h, String type, String file){
+        super( x, y, w, h, type, file);
     }
     
     @Override

@@ -1,4 +1,4 @@
-package javafxapplication13;
+package spaceinvaders;
 import elements.*;
 
 import java.util.List;
@@ -7,15 +7,16 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
  *
  * @author gustavoscarenci
  */
-public class JavaFXApplication13 extends Application {
+public class SpaceInvaders extends Application {
     
     final private Pane root  =  new Pane();
     
@@ -24,11 +25,16 @@ public class JavaFXApplication13 extends Application {
     
     private double t = 0;
     
-    final private Cannon cannon = new Cannon(300,550,40,40,"cannon",Color.BLUE);
-   
+    final private Cannon cannon = new Cannon(300,550,40,40,"cannon","/spaceinvaders/nave.png");
+    //Label scoreLabel = new Label("This is a label");
+    
     private Parent createContent(){
         root.setPrefSize(800,600);
+        root.setStyle("-fx-background-color: blue");
+       
+        //b.setFont(Font.loadFont("/spaceinvaders/Pixeboy.ttf", 45));
         
+        //root.getChildren().add(scoreLabel);        
         root.getChildren().add(cannon);
         
         AnimationTimer timer = new AnimationTimer(){
@@ -48,27 +54,27 @@ public class JavaFXApplication13 extends Application {
     private void nextLevel(){
         
         for(int i = 0; i < 11; i++){
-            Sprite s = new Enemy(30 + i*40, 40, 30, 30, "enemy", Color.RED);
+            GameObject s = new Enemy(30 + i*40, 30, 30, 30, "enemy", "/spaceinvaders/inimigo3.1.png");
             root.getChildren().add(s);
         }
         
         for(int i = 0; i< 2; i++){
             for(int j = 0; j < 11; j++){
-                Sprite s = new Enemy(30 + j*40, 80 + i* 40, 30, 30, "enemy", Color.YELLOW);
+                GameObject s = new Enemy(30 + j*40, 70 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo2.1.png");
                 root.getChildren().add(s);
             }
         }
         
         for(int i = 0; i< 2; i++){
             for(int j = 0; j < 11; j++){
-                Sprite s = new Enemy(30 + j*40, 160 + i* 40, 30, 30, "enemy", Color.GREEN);
+                GameObject s = new Enemy(30 + j*40, 150 + i* 40, 30, 30, "enemy", "/spaceinvaders/inimigo1.1.png");
                 root.getChildren().add(s);
             }
         }
     }
     
-    private List<Sprite> sprites(){
-    return root.getChildren().stream().map(n -> (Sprite)n).collect(Collectors.toList());}
+    private List<GameObject> sprites(){
+    return root.getChildren().stream().map(n -> (GameObject)n).collect(Collectors.toList());}
     
     private void update(){
         
@@ -135,7 +141,7 @@ public class JavaFXApplication13 extends Application {
         });
         
         root.getChildren().removeIf(n -> {
-            Sprite s = (Sprite) n;
+            GameObject s = (GameObject) n;
             return s.dead;
         });
         
@@ -144,9 +150,14 @@ public class JavaFXApplication13 extends Application {
         }
     }
     
-    void shoot(Sprite shooter){
-        Shot s = new Shot((int)shooter.getTranslateX() + 20,(int) shooter.getTranslateY(), 5, 20, shooter.getType() + "bullet", Color.BLACK);
-        root.getChildren().add(s);
+    void shoot(GameObject shooter){
+        if(shooter.getType().equals("cannon")){
+            Shot s = new Shot((int)shooter.getTranslateX() + 20,(int) shooter.getTranslateY(), 5, 20, shooter.getType() + "bullet", "/spaceinvaders/shotplayer.png");
+            root.getChildren().add(s);
+        }else if(shooter.getType().equals("enemy")){
+            Shot s = new Shot((int)shooter.getTranslateX() + 20,(int) shooter.getTranslateY(), 5, 20, shooter.getType() + "bullet", "/spaceinvaders/shot.png");
+            root.getChildren().add(s);    
+        }
     }
     
     @Override
