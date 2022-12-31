@@ -107,8 +107,11 @@ public class SpaceInvaders extends Application {
                 case "enemybullet":
                     s.moveDown();
                     if(s.getBoundsInParent().intersects(cannon.getBoundsInParent())){
-                        cannon.dead =  true;
-                        s.dead = true;
+                        //cannon.dead =  true;
+                        //s.dead = true;
+                        
+                        cannon.reduceLife();
+                        s.reduceLife();
                     }                    
                     break;
                 
@@ -116,8 +119,11 @@ public class SpaceInvaders extends Application {
                     s.moveUp();
                     sprites().stream().filter(e ->  e.getType().equals("enemy")).forEach(enemy-> {
                     if(s.getBoundsInParent().intersects(enemy.getBoundsInParent())){
-                        enemy.dead = true;
-                        s.dead =  true;
+                        //enemy.dead = true;
+                        //s.dead =  true;
+                        
+                        enemy.reduceLife();
+                        s.reduceLife();
                     }
                     });
                     break;
@@ -142,7 +148,7 @@ public class SpaceInvaders extends Application {
         
         root.getChildren().removeIf(n -> {
             GameObject s = (GameObject) n;
-            return s.dead;
+            return (s.getLife() == 0);
         });
         
         if(t > 2){

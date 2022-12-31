@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
  */
 public class GameObject extends ImageView{
     public boolean dead = false;
+    int lifes;
     final String type;
     
     /*GameObject(int x, int y, int w, int h, String type, Color color){
@@ -25,7 +26,7 @@ public class GameObject extends ImageView{
         setTranslateY(y);
     }*/
 
-    public GameObject(int x, int y, int w, int h, String type, String file) {
+    public GameObject(int x, int y, int w, int h, String type, String file, int lifes) {
         InputStream is = null;
         try {
             is = GameObject.class.getResource(file).openStream();
@@ -36,6 +37,7 @@ public class GameObject extends ImageView{
         setImage(image);
         
         this.type = type;
+        this.lifes = lifes;
         setTranslateX(x);
         setTranslateY(y);
     }
@@ -59,6 +61,14 @@ public class GameObject extends ImageView{
     
     public String getType(){
         return type;
+    }
+    
+    public void reduceLife(){
+        lifes--;
+    }
+    
+    public int getLife(){
+        return lifes;
     }
     
 }
